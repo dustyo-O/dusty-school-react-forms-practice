@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
 
-function App() {
+import { Form } from "./components/Form/Form";
+import { Diagram, UnitData } from "./components/Diagram/Diagram";
+
+import "./App.css";
+
+const AddData = [
+  { id: 0, value: 10, label: "series A" },
+  { id: 1, value: 15, label: "series B" },
+  { id: 2, value: 20, label: "series C" },
+];
+
+const App = () => {
+  const [data, setData] = useState<UnitData[]>([]);
+
+  const handleAddData = (label: string, value: string) => {
+    setData((prev) => {
+      return [
+        ...prev,
+        { id: prev.length, value: +value, label },
+      ];
+    });
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Form onSubmit={handleAddData} />
+      <Diagram chartData={data} />
     </div>
   );
-}
+};
 
-export default App;
+export { App };
